@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+  <display-name></display-name>	
+  <welcome-file-list>
+    <welcome-file>login.jsp</welcome-file>
+  </welcome-file-list>
+ 
+    <!-- sae需要的监听器 -->  
+    <!--  <listener>  
+         <listener-class>  
+             org.cxj.listener.SaeListener
+         </listener-class>  
+     </listener>   -->
+    <!-- 使用分布式session功能 -->
+    <!--  <distributable/>
+     <session-config>
+    <session-timeout>30</session-timeout>
+    </session-config> -->
+  <!-- 配置struts2请求拦截器 -->
+  <filter>
+    <filter-name>struts2</filter-name>
+    <filter-class>org.apache.struts2.dispatcher.FilterDispatcher</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>struts2</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+      
+  <!--  将struts2交给Spring管理 -->
+  <constant name="struts.objectFactory" value="spring" />
+  
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+  <!-- spring托管的session的管理设置 -->
+	<filter>
+		<filter-name>openSessionInViewerFilter</filter-name>
+		<filter-class>org.springframework.orm.hibernate4.support.OpenSessionInViewFilter</filter-class>
+		<!-- singleSession默认为true,若设为false则等于没用OpenSessionInView --> 
+		<init-param>   
+                  <param-name>singleSession</param-name>   
+                  <param-value>true</param-value>   
+        </init-param>   
+	</filter>
+	<filter-mapping>
+		<filter-name>openSessionInViewerFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- 添加监听器处理中文乱码 -->
+	<filter>
+	<filter-name>CharacterEncodingFilter</filter-name>
+	   <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+	   <init-param>
+	      <param-name>encoding</param-name>
+	      <param-value>UTF-8</param-value>
+	   </init-param>
+	   <init-param>
+	      <param-name>forceEncoding</param-name>
+	      <param-value>true</param-value>
+	   </init-param>
+	   </filter>
+	   <filter-mapping>
+	      <filter-name>CharacterEncodingFilter</filter-name>
+	      <url-pattern>/*</url-pattern>
+	   </filter-mapping> 
+</web-app>

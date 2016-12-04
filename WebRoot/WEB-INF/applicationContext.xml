@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+	<!-- 添加spring 的annotation（注解）功能 -->
+	<context:annotation-config />
+	<!-- 注解会自动扫描包 -->
+	<context:component-scan base-package="org.cxj" />
+	
+	<!-- 配置数据库连接信息 -->
+	<bean id="connection" class="org.apache.commons.dbcp2.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://sqld.duapp.com:4050/YZKgEmIxEcDuFLoWcgUr?useUnicode=true&amp;characterEncoding=utf8"/>
+		<property name="username" value="3cf00c73562346bc93d6d2720845b341" />
+		<property name="password" value="833360ff1f8e49c1a66788a5f829746d" />
+	</bean>
+	<!-- <bean id="connection" class="org.apache.commons.dbcp2.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/traffic_manage?useUnicode=true&amp;characterEncoding=utf8"/>
+		<property name="username" value="root" />
+		<property name="password" value="" />
+	</bean> -->
+	
+	<!-- sessionFactory配置 -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<!-- 数据库信息为上面已经配置好的dataSource -->
+		<property name="dataSource">
+		    <ref bean="connection" />
+		</property>
+		<!--自动扫描的包 -->
+		<property name="packagesToScan">
+			<list>
+				<value>org.cxj.bean</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<value>
+				hibernate.dialect=org.hibernate.dialect.MySQLDialect
+				hibernate.show_sql=true
+				hibernate.format_sql=true
+			</value>
+		</property>
+	</bean>
+	
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+	        <tx:attributes>
+	            <tx:method name="get*" read-only="true"/>
+	            <tx:method name="add*" propagation="REQUIRED"/>
+	            <tx:method name="list" read-only="true"/>
+	           	<tx:method name="save" propagation="REQUIRED"/>
+	           	<tx:method name="delete*" propagation="REQUIRED"/>
+	           	<tx:method name="update*" propagation="REQUIRED"/>
+	           	<tx:method name="insert" propagation="REQUIRED"/>
+	        </tx:attributes>
+    </tx:advice>
+    <!-- 配置事务拦截器拦截哪些类的哪些方法,用来托管hibernate -->
+	<aop:config>
+		<aop:pointcut expression="execution(public * org.cxj.service.*.*(..))" id="businessService"/>
+    	<aop:advisor advice-ref="txAdvice" pointcut-ref="businessService"/>
+    </aop:config>
+    <!-- 配置 -->
+	<tx:annotation-driven transaction-manager="txManager"/>
+	
+	<bean id="txManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+    	<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<!-- 配置LoginDao组件 -->
+	<bean id="BaseDao" class="org.cxj.dao.BaseDao">
+	    <!-- 注入Session工厂 -->
+		<property name="sessionFactory">
+		    <ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="loginDao" class="org.cxj.dao.impl.LoginDaoImpl">
+		<property name="sessionFactory">
+		    <ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="loginService" class="org.cxj.service.impl.LoginServiceImpl">
+		<property name="loginDao">
+		    <ref bean="loginDao" />
+		</property>
+	</bean>
+	
+	<!-- 配置DriverDao组件 -->
+	<bean id="driverDao" class="org.cxj.dao.impl.DriverDaoImpl">
+		<property name="sessionFactory">
+		    <ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="driverService" class="org.cxj.service.impl.DriverServiceImpl">
+		<property name="driverDao">
+		    <ref bean="driverDao" />
+		</property>
+	</bean>
+	
+	<!-- 配置CarDao组件 -->
+	<bean id="carDao" class="org.cxj.dao.impl.CarDaoImpl">
+		<property name="sessionFactory">
+		    <ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="carService" class="org.cxj.service.impl.CarServiceImpl">
+		<property name="carDao">
+		    <ref bean="carDao" />
+		</property>
+	</bean>
+	<!-- 配置OffenseDao组件 -->
+	<bean id="trafficoffenseDao" class="org.cxj.dao.impl.TrafficoffenseDaoImpl">
+		<property name="sessionFactory">
+		    <ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="trafficoffenseService" class="org.cxj.service.impl.TrafficeoffenseServiceImpl">
+		<property name="trafficoffenseDao">
+		    <ref bean="trafficoffenseDao" />
+		</property>
+	</bean>
+	<!-- 配置AccidentDao组件 -->
+	<bean id="accidentDao" class="org.cxj.dao.impl.AccidentDaoImpl">
+		<property name="sessionFactory">
+		    <ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="accidentService" class="org.cxj.service.impl.AccidentServiceImpl">
+		<property name="accidentDao">
+		    <ref bean="accidentDao" />
+		</property>
+	</bean>
+</beans>

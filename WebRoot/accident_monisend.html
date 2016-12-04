@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html" charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
+
+		<title>提交事故上传信息</title>
+
+
+		<link type="text/css" rel="stylesheet" href="css/style.css" />
+		<link type="text/css" rel="stylesheet" href="css/jquery.mmenu.all.css" />
+
+	</head> 
+	<body class="o-page">
+		<div id="page" >
+			
+			<h2 class="title" align="center">交通事故信息提交业务</h2>
+			<div id="content" style="height: 1060px;text-align: center;">
+				
+				<h2 class="title" style="text-align: left;">请输入以下信息（带*表示必填）：</h2>
+				
+				<form id="accident" class="accidentForm">
+					
+					<label style="text-align: left;">车主姓名 <span class="required">*</span></label>
+					<input type="text" name="driverName" id="driverName" placeholder="driverName">
+					
+					<label style="text-align: left;">车主手机号码 <span class="required">*</span></label>
+					<input type="text" name="driverPhone" id="driverPhone" placeholder="driverPhone">
+					
+					<label style="text-align: left;">车主驾驶证号 <span class="required">*</span></label>
+					<input type="text" name="driverId" id="driverId" placeholder="driverId">
+					
+					<label style="text-align: left;">己方车牌号 <span class="required">*</span></label>
+					<input type="text" name="plateNo" id="plateNo" placeholder="plateNo">
+					
+					<label style="text-align: left;">车辆类型 <span class="required">*</span></label>
+					<select>
+						<option>A1 大型客车</option>
+						<option>A2 牵引车</option>
+						<option>A3 城市公交车</option>
+						<option>B1 中型客车</option>
+						<option>B2 大型货车</option>
+						<option>C1 小型汽车</option>
+						<option>C2 小型自动挡汽车</option>
+					</select>
+					
+					<label style="text-align: left;">事故地点 <span class="required">*</span></label>
+					<input type="text" name="accidentPlace" id="accidentPlace" placeholder="accidentPlace">
+					
+					<label style="text-align: left;">保险公司 </label>
+					<select>
+						<option></option>
+						<option>平安车险</option>
+						<option>中国人保车险</option>
+						<option>太平洋车险</option>
+						<option>中华联合车险</option>
+						<option>大地车险</option>
+						<option>天安车险</option>
+						<option>永安车险</option>
+						<option>阳光车险</option>
+						<option>其他</option>
+					</select>
+					
+					<label style="text-align: left;">保单号 </label>
+					<input type="text" name="insurNo" id="insurNo" placeholder="insurNo">
+					
+					<!--<label style="text-align: left;">机动车驾驶证正副本照片 </label>
+					<input type="file" name="drivercardPic" id="drivercardPic" placeholder="drivercardPic">
+					
+					<label style="text-align: left;">机动车行驶证正副本照片 </label>
+					<input type="file" name="carcardPic" id="carcardPic" placeholder="carcardPic">
+					
+					<label style="text-align: left;">交强险胶贴背面或保单照片 </label>
+					<input type="file" name="insurPic" id="insurPic" placeholder="insurPic">
+					
+					<label style="text-align: left;">前全景图 </label>
+					<input type="file" name="frontPic" id="frontPic" placeholder="frontPic">
+					
+					<label style="text-align: left;">后全景图 </label>
+					<input type="file" name="backPic" id="backPic" placeholder="backPic">
+					
+					<label style="text-align: left;">碰撞部位照片 </label>
+					<input type="file" name="keypositionPic" id="keypositionPic" placeholder="keypositionPic">
+					-->
+					<label style="text-align: left;">对方车牌号 <span class="required">*</span></label>
+					<input type="text" name="opplateNo" id="opplateNo" placeholder="opplateNo">
+					
+					<label style="text-align: left;">对交警陈述 <span class="required">*</span></label>
+					<textarea id="statement" name="statement" placeholder="statement"></textarea>
+					
+					<input style="width: 100px;height: 30px;" type="submit"  class="btn-normal" id="Submit" value="提交">
+					
+				</form>
+
+			</div>
+			
+			<div class="subFooter">---基于微信公众平台的交警服务应用---</div>
+			
+		</div>
+	</body>
+</html>

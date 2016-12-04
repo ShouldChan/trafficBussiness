@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+    <constant name="struts.i18n.encoding" value="utf-8"></constant>
+	<package name="default" extends="struts-default">
+		<!-- 登录Action -->
+		<action name="login" class="org.cxj.action.LoginAction">
+			<result name="input">/login.jsp</result>
+			<result name="success" type="chain">driverlist</result>
+		</action>	
+		
+		<!-- 驾驶员管理Action -->
+		<action name="driverlist" class="org.cxj.action.DriverAction" method="driverList">
+			<result name="success">/manageDriver.jsp</result>
+		</action>
+
+		<!-- 机动车管理Action -->
+		<action name="carlist" class="org.cxj.action.CarAction" method="carList">
+			<result name="success">/manageCar.jsp</result>
+		</action>
+		<!-- 交通违章管理Action -->
+		<action name="offenselist" class="org.cxj.action.TrafficoffenseAction" method="offenseList">
+			<result name="success">/manageOffense.jsp</result>
+		</action>
+		<!-- 事故处理管理Action -->
+		<action name="accidentlist" class="org.cxj.action.AccidentAction" method="accidentList">
+			<result name="success">/manageAccident.jsp</result>
+		</action>
+		<!-- Driver查询Action -->
+		<action name="selectdriver" class="org.cxj.action.DriverAction" method="selectDriver">
+			<result name="success">/driverInfo.jsp</result>
+		</action>
+		<!-- Car查询Action -->
+		<action name="selectcar" class="org.cxj.action.CarAction" method="selectCar">
+			<result name="success">/carInfo.jsp</result>
+		</action>
+		<!-- Trafficoffense查询Action -->
+		<action name="selecttrafficoffense" class="org.cxj.action.TrafficoffenseAction" method="selectTrafficoffense">
+			<result name="success">/trafficoffenseInfo.jsp</result>
+		</action>
+		<!-- Accident提交Action -->
+		<action name="accidentsend" class="org.cxj.action.AccidentAction" method="addAccident">
+			<result name="success" type="redirect">/accidentInfo.jsp</result>
+		</action>
+	</package>
+</struts>
